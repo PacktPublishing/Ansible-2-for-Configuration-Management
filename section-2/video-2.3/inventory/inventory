@@ -1,0 +1,13 @@
+# This file exists to turn the dynamic AWS groups into
+# simplified names for the playbook.yaml and the group_vars dir.
+
+# First declare the dynamic groups so Ansible knows they exist.
+[tag_type_server]
+
+[tag_type_client]
+
+[servers:children]
+tag_type_server
+
+[clients:children]
+tag_type_client

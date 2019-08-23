@@ -1,0 +1,5 @@
+#!/bin/bash
+LOAD=( $(cat /proc/loadavg) )
+echo "{ \"load_1min\": \"${LOAD[0]}\", \
+	\"load_5min\": \"${LOAD[1]}\", \
+	\"load_15min\": \"${LOAD[2]}\" }"

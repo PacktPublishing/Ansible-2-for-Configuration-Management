@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: apt update
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+- hosts: servers
+  become: yes
+  roles:
+    - geerlingguy.java
+    - geerlingguy.elasticsearch
+    - geerlingguy.kibana
+    - geerlingguy.logstash
+  post_tasks:
+    - name: remove problem logstash solr filter
+      file: path=/etc/logstash/conf.d/14-solr.conf state=absent
+      
+- hosts: clients
+  become: yes
+  roles:
+    - filebeat
+
+- hosts: servers
+  tasks:
+    - debug: msg="Access Kibana at http://{{ ansible_host }}:5601/"

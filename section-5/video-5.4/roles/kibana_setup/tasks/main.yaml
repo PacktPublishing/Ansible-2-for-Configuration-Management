@@ -1,0 +1,13 @@
+---
+- name: install pip
+  apt: name=python3-pip state=present
+
+- name: install requirements
+  pip: name=requests state=present
+
+- name: kibana index patterns
+  kibana_index_pattern:
+    kibana_url: "{{ kibana_url }}"
+    name: "logs-pattern"
+    pattern: "filebeat-*"
+    time_field_name: "@timestamp"

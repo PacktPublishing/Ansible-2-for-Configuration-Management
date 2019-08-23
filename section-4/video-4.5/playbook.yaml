@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  connection: local
+  tasks:
+    - name: launch container
+      docker_container:
+        name: hellodocker
+        state: started
+        image: python:3.7-slim-buster
+        command: sleep infinity
+    - name: add container to inventory
+      add_host:
+        hostname: hellodocker
+- hosts: hellodocker
+  connection: docker
+  vars:
+    ansible_python_interpreter: /usr/local/bin/python3
+  tasks:
+    - debug: var=ansible_virtualization_type
+- hosts: localhost
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  connection: local
+  tasks:
+    - name: stop container
+      docker_container:
+        name: hellodocker
+        state: absent

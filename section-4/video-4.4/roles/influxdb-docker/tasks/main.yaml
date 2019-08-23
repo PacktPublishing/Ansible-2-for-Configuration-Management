@@ -1,0 +1,34 @@
+---
+- name: pull image
+  docker_image:
+    name: influxdb:{{ influxdb_image_version }}
+    source: pull
+
+- name: persistent volume
+  docker_volume:
+    name: influxdb
+
+- name: service file
+  copy:
+    dest: /etc/systemd/system/influxdb.docker.service
+    src: influxdb.docker.service
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - reload systemd
+
+- name: configuration file
+  template:
+    dest: /etc/default/influxdb.docker.env
+    src: influxdb.docker.env.j2
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - restart influxdb
+
+- meta: flush_handlers
+
+- name: service
+  service: name=influxdb.docker state=started enabled=yes

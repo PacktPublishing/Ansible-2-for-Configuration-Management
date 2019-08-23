@@ -1,0 +1,3 @@
+# Configure this based on your chosen image. These are set up for Ubuntu 18.04
+# on Amazon Web Services.
+ansible_python_interpreter: /usr/bin/python3

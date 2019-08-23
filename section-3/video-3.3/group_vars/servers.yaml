@@ -1,0 +1,17 @@
+---
+manala_influxdb_install_packages: 
+  - influxdb
+  - influxdb-client
+
+manala_influxdb_databases:
+  - db1
+
+manala_influxdb_users:
+  - database: db1
+    name:     influxuser
+    password: keepmesecret
+
+manala_influxdb_privileges:
+  - database: db1
+    user:     influxuser
+    grant:    ALL

@@ -1,0 +1,96 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: vpc
+      ec2_vpc_net:
+        name: elk_stack
+        region: "{{ aws_region }}"
+        cidr_block: "{{ aws_private_cidr }}"
+      register: aws_vpc_output
+
+    - name: subnet
+      ec2_vpc_subnet:
+        region: "{{ aws_region }}"
+        az: "{{ aws_subnet_az }}"
+        vpc_id: "{{ aws_vpc_output['vpc']['id'] }}"
+        cidr: "{{ aws_private_cidr }}"
+      register: aws_subnet_output
+
+    - name: internet gateway
+      ec2_vpc_igw:
+        vpc_id: "{{ aws_vpc_output['vpc']['id'] }}"
+        region: "{{ aws_region }}"
+        state: present
+      register: aws_igw_output
+
+    - name: public route
+      ec2_vpc_route_table:
+        vpc_id: "{{ aws_vpc_output['vpc']['id'] }}"
+        region: "{{ aws_region }}"
+        tags:
+          Name: Public
+        subnets:
+          - "{{ aws_subnet_output['subnet']['id'] }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ aws_igw_output['gateway_id'] }}"
+
+    - name: security group
+      ec2_group:
+        name: elk_stack_sg
+        description: "ELK Stack Security Group"
+        region: "{{ aws_region }}"
+        vpc_id: "{{ aws_vpc_output['vpc']['id'] }}"
+        rules:
+          - proto: tcp
+            ports:
+            - 22
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow incoming ssh
+          - proto: tcp
+            ports:
+            - 5601
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow kibana
+          - proto: tcp
+            ports:
+            - 5044
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow logstash
+      register: aws_sg_output
+
+    - name: instances
+      ec2_instance:
+        region: "{{ aws_region }}"
+        name: "{{ item.key }}"
+        key_name: "{{ aws_key }}"
+        instance_type: "{{ item.value.instance_type }}"
+        image_id: "{{ aws_ubuntu_ami }}"
+        wait: yes
+        wait_timeout: 10
+        vpc_subnet_id: "{{ aws_subnet_output['subnet']['id'] }}"
+        security_group: "{{ aws_sg_output['group_id'] }}"
+        network:
+          assign_public_ip: yes
+          private_ip_address: "{{ item.value.ip }}"
+        tags:
+          env: aws_ansible_elk_stack
+          type: "{{ item.value.type }}"
+      with_dict: "{{ aws_instances }}"
+      register: aws_ec2_instance_output
+
+    - name: fetch host keys
+      shell: aws ec2 get-console-output --instance-id {{ item[1] }} --output text|sed -n 's/ecdsa-sha2-nistp256 \([^ ]*\).*/\1/p'
+      register: aws_ec2_host_keys
+      until: aws_ec2_host_keys.stdout|length
+      delay: 30
+      retries: 30
+      with_list: "{{ aws_ec2_instance_output | json_query('results[].instances[0].[public_ip_address, instance_id]') }}"
+      changed_when: false
+
+    - name: store host keys for my user
+      known_hosts:
+        name: "{{ item[0] }}"
+        key: "{{ item[0] }} ecdsa-sha2-nistp256 {{ item[1] }}"
+      with_list: "{{ aws_ec2_host_keys | json_query('results[].[item[0], stdout]') }}"

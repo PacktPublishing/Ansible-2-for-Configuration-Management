@@ -1,0 +1,3 @@
+---
+kibana_url: http://localhost:5601
+kibana_indexes: {}

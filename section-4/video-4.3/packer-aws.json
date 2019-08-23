@@ -1,0 +1,23 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "source_ami": "ami-024a64a6685d05041",
+      "instance_type": "t3.large",
+      "ssh_username": "ubuntu",
+      "ami_name": "elk-stack-{{timestamp}}",
+      "security_group_ids": [
+        "sg-060acb7ee03fc52dc"
+      ],
+      "subnet_id": "subnet-0aba8e015b671e397"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "playbook.yaml"
+    }
+  ]
+}

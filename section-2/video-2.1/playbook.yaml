@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: touch a file in /tmp
+      file:
+        path: /tmp/ansible-task-sample
+        state: touch
+        mode: 0644
+    - name: try to set the same file mode (will report no change)
+      file:
+        path: /tmp/ansible-task-sample
+        mode: 0644
+    - name: change the file mode (will report a change)
+      file:
+        path: /tmp/ansible-task-sample
+        mode: 0640
+    - name: delete the file
+      file:
+        path: /tmp/ansible-task-sample
+        state: absent
+    - name: try to delete the file again (will report no change)
+      file:
+        path: /tmp/ansible-task-sample
+        state: absent

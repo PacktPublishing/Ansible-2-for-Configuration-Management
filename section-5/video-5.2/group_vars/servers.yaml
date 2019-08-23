@@ -1,0 +1,15 @@
+---
+java_packages:
+  - openjdk-8-jdk
+
+elasticsearch_version: '7.x'
+
+kibana_version: '7.x'
+kibana_config_template: kibana-7.x.yml.j2
+
+kibana_indexes:
+  logs-pattern:
+    pattern: "filebeat-*"
+    time_field_name: "@timestamp"
+  logs-2019-pattern:
+    pattern: "filebeat-2019*"

@@ -1,0 +1,35 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: influxdb
+  namespace: default
+  labels:
+    app: influxdb
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      containers:
+      - name: influxdb
+        command:
+        image: influxdb:{{ influxdb_version }}
+        env:
+        - name: INFLUXDB_HTTP_AUTH_ENABLED
+          value: "true"
+        resources:
+          requests:
+            cpu: 0m
+        ports:
+        - name: influxdb-port
+          containerPort: 8086
+        volumeMounts:
+        - mountPath: /var/lib/influxdb/
+          name: storage
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: influxdb-storage

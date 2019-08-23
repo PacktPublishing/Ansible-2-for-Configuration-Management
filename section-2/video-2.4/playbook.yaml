@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: print facts
+      debug: var=ansible_facts
+    - name: identify machines with reduced memory
+      debug: msg="Less than 3GB of RAM"
+      when: ansible_memtotal_mb < 3072

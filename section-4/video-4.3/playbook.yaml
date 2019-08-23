@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+  pre_tasks:
+    - name: apt update
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+  roles:
+    - geerlingguy.java
+    - geerlingguy.elasticsearch
+    - geerlingguy.kibana
+    - geerlingguy.logstash
+  post_tasks:
+    - name: remove problem logstash solr filter
+      file: path=/etc/logstash/conf.d/14-solr.conf state=absent

@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: example good result
+      my_example_module:
+        a_string: "things are all good"
+        a_number: 123
+        things_are_good: True
+      register: good_result
+
+    - debug: var=good_result
+
+    - name: example bad result
+      my_example_module:
+        a_string: "things are not so good"
+        a_number: 789
+        things_are_good: False

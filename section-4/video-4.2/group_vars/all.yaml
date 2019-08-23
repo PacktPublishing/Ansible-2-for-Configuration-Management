@@ -1,0 +1,20 @@
+---
+aws_region: us-east-1
+aws_subnet_az: us-east-1d
+aws_private_cidr: 172.31.0.0/16
+aws_key: aws
+aws_ubuntu_ami: ami-024a64a6685d05041
+
+aws_instances:
+  server:
+    type: server
+    ip: 172.31.1.1
+    instance_type: t3.medium
+  client01:
+    type: client
+    ip: 172.31.1.11
+    instance_type: t3.small
+  client02:
+    type: client
+    ip: 172.31.1.12
+    instance_type: t3.small

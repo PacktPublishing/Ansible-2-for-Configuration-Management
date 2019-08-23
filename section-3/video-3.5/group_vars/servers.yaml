@@ -1,0 +1,8 @@
+---
+java_packages:
+  - openjdk-8-jdk
+
+elasticsearch_version: '7.x'
+
+kibana_version: '7.x'
+kibana_config_template: kibana-7.x.yml.j2

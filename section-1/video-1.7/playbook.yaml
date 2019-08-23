@@ -1,0 +1,16 @@
+---
+- hosts: all
+  tasks:
+    - debug: msg="Hello from {{ inventory_hostname }}!"
+    - pause:
+- hosts: servers
+  tasks:
+    - debug: msg="Hello from {{ inventory_hostname }}!"
+    - pause:
+- hosts: clients
+  tasks:
+    - debug: msg="Hello from {{ inventory_hostname }}!"
+    - pause:
+- hosts: client02
+  tasks:
+    - debug: msg="Hello from {{ inventory_hostname }}!"

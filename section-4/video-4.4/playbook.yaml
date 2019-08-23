@@ -1,0 +1,16 @@
+---
+- hosts: servers
+  become: yes
+  pre_tasks:
+    - name: apt update
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: install docker
+      apt: name=docker.io state=present
+    - name: install pip
+      apt: name=python3-pip state=present
+    - name: install docker module
+      pip: name=docker state=present
+  roles:
+    - influxdb-docker

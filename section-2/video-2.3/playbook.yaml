@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    java_version: 10.0.1+10-3ubuntu1
+  tasks:
+    - name: install java
+      apt:
+        name: openjdk-11-jre-headless={{ java_version }}
+        update_cache: yes
+    - name: fetch java version
+      shell: java -version
+      register: java_version_output
+      changed_when: False
+    - name: print java version
+      debug: msg="{{ java_version_output['stderr_lines'] }}"

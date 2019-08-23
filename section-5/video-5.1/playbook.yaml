@@ -1,0 +1,17 @@
+---
+- hosts: server
+  become: yes
+  tasks:
+    - name: create fact directory
+      file:
+        path: /etc/ansible/facts.d
+        state: directory
+    - name: install fact
+      copy:
+        src: loadavg.fact
+        dest: /etc/ansible/facts.d/loadavg.fact
+        mode: 0755
+- hosts: server
+  become: yes
+  tasks:
+    - debug: var=ansible_local.loadavg

@@ -1,0 +1,47 @@
+---
+- hosts: localhost
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  connection: local
+  tasks:
+    - name: persistent volume claim
+      k8s:
+        state: present
+        definition:
+          kind: PersistentVolumeClaim
+          apiVersion: v1
+          metadata:
+            name: influxdb-storage
+            namespace: default
+            labels:
+              app: influxdb
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 4Gi
+
+    - name: deployment
+      k8s:
+        state: present
+        definition: "{{ lookup('template', 'deployment.yaml') | from_yaml }}"
+
+    - name: service
+      k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: influxdb
+            namespace: default
+            labels:
+              app: influxdb
+          spec:
+            ports:
+            - name: influxdb
+              port: 8086
+              targetPort: influxdb-port
+            selector:
+              app: influxdb

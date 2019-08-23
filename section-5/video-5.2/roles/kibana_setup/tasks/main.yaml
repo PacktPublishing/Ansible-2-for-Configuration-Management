@@ -1,0 +1,16 @@
+---
+- name: install pip
+  apt: name=python3-pip state=present
+
+- name: install requirements
+  pip: name={{ item }} state=present
+  loop:
+    - requests
+
+- name: kibana index patterns
+  kibana_index_pattern:
+    kibana_url: "{{ kibana_url }}"
+    name: "{{ item.key }}"
+    pattern: "{{ item.value.pattern }}"
+    time_field_name: "{{ item.value.time_field_name | default(omit) }}"
+  with_dict: "{{ kibana_indexes }}"

@@ -1,0 +1,4 @@
+---
+filebeat_major_version: '7.x'
+filebeat_version: '7.2.0'
+filebeat_logstash_host_port: 'logserver:5044'

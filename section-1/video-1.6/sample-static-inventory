@@ -1,0 +1,6 @@
+[servers]
+server
+
+[clients]
+client01
+client02

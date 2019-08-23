@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    filebeat_output_logstash: true
+    filebeat_logstashes:
+      - "server01:5044"
+      - "server02:5044"
+  tasks:
+    - template:
+        src: filebeat.yml.j2
+        dest: /tmp/filebeat.yml
