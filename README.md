@@ -23,10 +23,12 @@ By the end of the course, you will have worked through hands-on examples of Ansi
 ### Assumed Knowledge
 
 To fully benefit from the coverage included in this course, you will need:
-●	An understanding of installing and configuring software
-●	Basic knowledge of editing files and using the command line.
-You don’t need any prior experience with Ansible.
 
+●	An understanding of installing and configuring software
+
+●	Basic knowledge of editing files and using the command line.
+
+●	You don’t need any prior experience with Ansible.
 
 To fully benefit from the coverage included in this course, you will need:
 
