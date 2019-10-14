@@ -31,19 +31,33 @@ You don’t need any prior experience with Ansible.
 To fully benefit from the coverage included in this course, you will need:
 
 This course has the following software requirements:
+
 ●	An editor (Atom suggested)
+
 ●	Recommended packages: atom-ide-ui, ide-yaml
+
 ●	Access to a physical or virtual machine running Linux
+
 ●	The videos demonstrate using Ubuntu 18.04
+
 ●	See the videos or README.md in the exercise files for setup instructions
+
 ●	Access to at least one other physical or virtual machine to practice automation
+
 ●	The videos demonstrate creating machines in Amazon Web Services
+
 ●	Other configurations will require some minor changes to the exercise files
+
 This course has been tested on the following system configuration for the Ansible control machine:
+
 ●	OS: Ubuntu 18.04
+
 ●	Processor: Quad Core Intel
+
 ●	Memory: 8GB
+
 ●	Hard Disk Space: 100GB
+
 The examples use Amazon Web Services to create the needed computing resources to try out Ansible automation, but other cloud providers or local hardware will work as well with some minor changes to the exercise files.
 
 ## Layout
