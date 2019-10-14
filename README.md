@@ -22,7 +22,7 @@ By the end of the course, you will have worked through hands-on examples of Ansi
 ## Instructions and Navigation
 ### Assumed Knowledge
 
-#### To fully benefit from the coverage included in this course, you will need:
+### To fully benefit from the coverage included in this course, you will need:
 
 ●	An understanding of installing and configuring software
 
@@ -30,7 +30,7 @@ By the end of the course, you will have worked through hands-on examples of Ansi
 
 ●	You don’t need any prior experience with Ansible.
 
-#### This course has the following software requirements:
+### This course has the following software requirements:
 
 ●	An editor (Atom suggested)
 
@@ -48,7 +48,7 @@ By the end of the course, you will have worked through hands-on examples of Ansi
 
 ●	Other configurations will require some minor changes to the exercise files
 
-#### This course has been tested on the following system configuration for the Ansible control machine:
+### This course has been tested on the following system configuration for the Ansible control machine:
 
 ●	OS: Ubuntu 18.04
 
